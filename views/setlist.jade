@@ -1,0 +1,18 @@
+section#setlist
+  table
+    thead
+      th Set List
+    tbody
+      tr
+        td Title
+        td Artist
+      each song in setlist
+        tr
+          if song.title
+            td= song.title
+          else
+            td no title
+          if song.artist
+            td= song.artist
+          else
+            td no artist

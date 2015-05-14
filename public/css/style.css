@@ -1,0 +1,12 @@
+@font-face {
+  font-family: Ruthie;
+  src: url('/fonts/Ruthie regular.ttf');
+}
+
+body {
+  background-color: #eee;
+}
+h1 {
+  font-family: Ruthie, cursive;
+  font-size: 3em;
+}
