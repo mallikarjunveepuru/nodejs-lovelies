@@ -1,21 +1,7 @@
 extends layout
 
 block content
-  .wrapper
-    main
-      header
-        h1 The Lovelies
-      nav
-        ul
-          li Members
-          li Shows
-          li Contact
-      include ./setlist
-      section#raw
-        p= setlist
-    footer
-      h3 this is the footer
-      p The Lovelies are an acoustic trio based in Toronto, Ontario.
-      p Jonathon Orsi
-      p Lauren Newbery
-      p Devin Newbery
+  #container(ng-controller="MainController")
+    include ./partials/video
+    main#content(ng-view)
+    include ./partials/menu

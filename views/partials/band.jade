@@ -1,0 +1,12 @@
+section#band(ng-controller="BandController")
+  p The Lovelies are an acoustic trio consisting of Jonathon Orsi, Devin Newbery, and Lauren Newbery.
+  table#setlist-table
+    thead
+      th Set List
+    tbody
+      tr
+        td Title
+        td Artist
+      tr(ng-repeat="song in songs")
+        td {{ song.title }}
+        td {{ song.artist }}

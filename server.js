@@ -2,6 +2,7 @@ var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var methodOverride = require('method-override');
 var app = express();
 
 /* Set-up Express
@@ -14,22 +15,28 @@ app.set('view engine', 'jade');
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+app.use(methodOverride());
+app.use(express.static('./public'));
 
 
 /* Set-up routes
  * * * * * * * * * * * */
-var index = require('./routes/index');
-app.use('/', index);
-var song = require('./routes/song');
-app.use('/song', song);
+var router = require('./routes/router');
+app.get('/', router.index);
+app.get('/index.html', router.index);
+app.get('/band', router.band);
+app.get('/shows', router.shows);
+app.get('/contact', router.contact);
+app.get('/partials/:id', router.partials);
+  // ~/song routes
+//app.all('/song', router.song);
+app.get('/song', router.getSongs);
+app.get('/song/:id', router.getOneSong);
+app.post('/song', router.postSong);
+app.put('/song/:id', router.updateSong);
+app.delete('/song/:id', router.deleteSong);
 
-
-/* Static router and error page
- * * * * * * * */
-app.use('/', express.static('./public'));
-var error = require('./routes/error');
-app.use(error);
-
+app.use(router.error);
 
 /* Connection to the database
  * * * * * * * * * * * * * * */

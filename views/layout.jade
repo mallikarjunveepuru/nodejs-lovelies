@@ -1,10 +1,16 @@
 doctype html
-html(lang="en")
+html(lang="en", ng-app="lovelies")
   head
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1")
     meta(name="author", content="Jonathon Orsi")
-    title= title
+    title the Lovelies
     link(rel="stylesheet", href="/css/style.css")
+    link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Droid+Serif:400,700|Ruthie")
+    link(rel="stylesheet", href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
   body
     block content
+    script(src="/js/index.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js")
+    script(src="http://code.angularjs.org/1.2.1/angular-route.min.js")
+    script(src="/js/angular.js")
