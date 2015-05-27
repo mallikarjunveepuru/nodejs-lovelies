@@ -1,0 +1,41 @@
+section#login(ng-controller="AdminController")
+  strong.section-title Administration
+  article.content-container
+    table.tbl
+      caption Song Database
+      thead
+        th Title
+        th Artist
+      tbody
+        tr
+          form
+            td
+              input(name="title", type="text", class="validate[required,custom[onlyLetter],length[0,100]] contact-input input-text", placeholder="title")
+            td
+              input(name="artist", type="text", class="validate[required,custom[email]] contact-input input-text password", placeholder="artist")
+            td
+              button#send add
+        tr(ng-repeat="song in songs")
+          td {{ song.title }}
+          td {{ song.artist }}
+          td
+            button#send delete
+      table.tbl
+        caption Show Database
+        thead
+          th Date
+          th Location
+        tbody
+          tr
+            form
+              td
+                input(name="date", type="text", class="validate[required,custom[onlyLetter],length[0,100]] contact-input input-text", placeholder="date")
+              td
+                input(name="location", type="text", class="validate[required,custom[email]] contact-input input-text password", placeholder="location")
+              td
+                button#send add
+          tr(ng-repeat="show in shows")
+            td {{ show.date }}
+            td {{ show.location }}
+            td
+              button#send delete

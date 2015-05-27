@@ -1,0 +1,10 @@
+section#login(ng-controller="AdminController")
+  strong.section-title Admin Login
+  form.content-container
+      div#username-box
+        i.icon-label(class="fa fa-user fa-2x")
+        input(name="username", type="text", class="validate[required,custom[onlyLetter],length[0,100]] contact-input input-text", placeholder="Username")
+      div#password-box
+        i.icon-label(class="fa fa-key fa-2x")
+        input(name="password", type="text", class="validate[required,custom[email]] contact-input input-text password", placeholder="Password")
+      input#send(type="submit", value="SEND")

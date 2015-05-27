@@ -1,0 +1,15 @@
+section#band(ng-controller="BandController")
+  strong.section-title The Band
+  p#bio The Lovelies are an acoustic trio based in Toronto. The members are Jonathon Orsi, Devin Newbery, and Lauren Newbery.
+  img.img(src="/media/laurenjon.jpg")
+  br
+  article.content-container
+    table.tbl
+      caption Songs
+      thead
+        th Title
+        th Artist
+      tbody
+        tr(ng-repeat="song in songs")
+          td {{ song.title }}
+          td {{ song.artist }}

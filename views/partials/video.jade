@@ -1,0 +1,16 @@
+div#vid-container(ng-controller="VideoController")
+  div#vid-curtain
+  div#video
+    video#video-bg(src="media/cantgoforthat.mp4", type="video/mp4", autoplay, muted, loop, poster="/media/bg.jpg")
+  div#video-controls
+    i#show-hide(class="fa fa-eye-slash")
+    br
+    i#play-pause(class="fa fa-pause")
+    input(id="seek", class="bar", type="range", value="0", ng-model="videoPosition")
+    br
+    i#listen-mute(class="fa fa-volume-off")
+    input#vol.bar(type="range", min="0", max="1", step=".01", value="0.2", ng-model="videoVolume")
+    ul#vid-playlist
+      li.now-playing I Can't Go For That
+      li The Dirty Rumours
+      li American Boy

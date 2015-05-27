@@ -1,0 +1,11 @@
+section#shows(ng-controller="ShowsController")
+  strong.section-title Shows
+  article.content-container
+    table.tbl
+      thead
+        th Date
+        th Location
+      tbody
+        tr(ng-repeat="show in shows")
+          td {{ show.date }}
+          td {{ show.location }}
