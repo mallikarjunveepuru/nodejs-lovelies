@@ -1,9 +1,0 @@
-div#vid-container(ng-controller="VideoController")
-  div#video
-    video#video-bg(src="media/cantgoforthat.mp4", type="video/mp4", autoplay, muted, loop, poster="/media/bg.jpg")
-  div#video-controls
-    i#show-hide(class="fa fa-eye fa-2x", ng-click="showHide()")
-    i#play-pause(class="fa fa-pause fa-2x", ng-click="playPause()")
-    input(id="seek", class="bar", type="range", value="0", ng-model="videoPosition", ng-change="updateSeek()")
-    i#listen-mute(class="fa fa-volume-off fa-2x", ng-click="listenMute()")
-    input(id="vol", class="bar", type="range", min="0", max="1", step=".01", value=".5", ng-model="videoVolume", ng-change="updateVolume()")
