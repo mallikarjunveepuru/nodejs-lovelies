@@ -32,110 +32,6 @@ lovelies.config(function($routeProvider, $locationProvider) {
 lovelies.controller("MainController", function ($scope, $http) {
 });
 
-lovelies.controller("ShowsController", function ($scope, $http) {
-  $scope.shows = [
-    {
-      location: "Dave's On St.Clair",
-      date: "Thursdays"
-    }
-  ];
-});
-
-lovelies.controller("ContactController", function ($scope, $http) {
-  $scope.submit = function(form) {
-  $scope.status = " ";
-    $("#status").addClass("fa fa-spinner fa-spin fa-2x");
-
-    var q = "?"
-      + "name=" + $scope.name
-      + "&email=" + $scope.email
-      + "&subject=" + $scope.subject
-      + "&message=" + $scope.message;
-    $http.get('/api/email/' + q)
-        .success(function(data) {
-            console.log(data);
-            $("#status").removeClass("fa fa-spinner fa-spin fa-2x");
-            $scope.status = "Thank you, we'll contact you soon.";
-            $scope.message = "";
-            $scope.name = "";
-            $scope.email = "";
-            $scope.subject = "";
-        })
-        .error(function(data) {
-          $("#status").removeClass("fa fa-spinner fa-spin fa-2x");
-            console.log('Error: ' + data);
-            $scope.status = "An error occurred. Please try again.";
-        });
-  };
-});
-
-lovelies.controller("AdminController", function ($scope, $http) {
-  $scope.shows = [
-    {
-      location: "Dave's On St.Clair",
-      date: "Thursdays"
-    }
-  ];
-  $scope.songs = [
-    {
-      title: "Everything You've Done Wrong",
-      artist: "Sloan"
-    },
-    {
-      title: "Break On Through",
-      artist: "The Doors"
-    }
-  ];
-    $scope.formData = {};
-
-    // when submitting the add form, send the text to the node API
-    $scope.postSong = function() {
-        $http.post('/api/song', $scope.formData)
-            .success(function(data) {
-                $scope.formData = {}; // clear the form so our user is ready to enter another
-                $scope.songs = data;
-                console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
-
-    // delete a song after checking it
-    $scope.deleteSong = function(id) {
-        $http.delete('/api/song' + id)
-            .success(function(data) {
-                $scope.songs = data;
-                console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
-});
-
-lovelies.controller("BandController", function ($scope, $http) {
-  $scope.songs = [
-    {
-      title: "Everything You've Done Wrong",
-      artist: "Sloan"
-    },
-    {
-      title: "Break On Through",
-      artist: "The Doors"
-    }
-  ];
-
-    // when landing on the page, get all songs and show them
-    $http.get('/api/song')
-        .success(function(data) {
-            //$scope.songs = data;
-            console.log(data);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
-});
 
 lovelies.controller("VideoController", function ($scope, $http) {
   $scope.video = $("#video-bg");
@@ -230,4 +126,109 @@ lovelies.controller("VideoController", function ($scope, $http) {
   $scope.seekBar.on("mouseup", function() {
     $scope.seekToggle = true;
   });
+});
+
+
+lovelies.controller("BandController", function ($scope, $http) {
+  $scope.songs = [];
+  $http.get('/api/song')
+    .success(function (data) {
+      $scope.songs = data;
+  });
+});
+
+
+lovelies.controller("ShowsController", function ($scope, $http) {
+  $scope.shows = [];
+  $http.get('/api/show')
+    .success(function (data) {
+      $scope.shows = data;
+  });
+});
+
+lovelies.controller("ContactController", function ($scope, $http) {
+  $scope.submit = function(form) {
+  $scope.status = " ";
+    $("#status").addClass("fa fa-spinner fa-spin fa-2x");
+
+    var q = "?"
+      + "name=" + $scope.name
+      + "&email=" + $scope.email
+      + "&subject=" + $scope.subject
+      + "&message=" + $scope.message;
+    $http.get('/api/email/' + q)
+        .success(function(data) {
+            console.log(data);
+            $("#status").removeClass("fa fa-spinner fa-spin fa-2x");
+            $scope.status = "Thank you, we'll contact you soon.";
+            $scope.message = "";
+            $scope.name = "";
+            $scope.email = "";
+            $scope.subject = "";
+        })
+        .error(function(data) {
+          $("#status").removeClass("fa fa-spinner fa-spin fa-2x");
+            console.log('Error: ' + data);
+            $scope.status = "An error occurred. Please try again.";
+        });
+  };
+});
+
+lovelies.controller("AdminController", function ($scope, $http) {
+  $scope.songs = [];
+  $http.get('/api/song')
+    .success(function (data) {
+      $scope.songs = data;
+  });
+
+  $scope.shows = [];
+  $http.get('/api/show')
+    .success(function (data) {
+      $scope.shows = data;
+    });
+
+  $scope.songData = {};
+  $scope.showData = {};
+
+  $scope.postSong = function() {
+      $http.post('/api/song', $scope.songData)
+          .success(function(data) {
+              $scope.songs = data;
+          })
+          .error(function(data) {
+              console.log('Error: ' + data);
+          });
+  };
+
+  $scope.deleteSong = function(song) {
+    var id = song._id;
+      $http.delete('/api/song/' + id)
+          .success(function(data) {
+              $scope.songs = data;
+          })
+          .error(function(data) {
+              console.log('Error: ' + data);
+          });
+  };
+
+  $scope.postShow = function() {
+      $http.post('/api/show', $scope.showData)
+          .success(function(data) {
+              $scope.shows = data;
+          })
+          .error(function(data) {
+              console.log('Error: ' + data);
+          });
+  };
+
+  $scope.deleteShow = function(show) {
+    var id = show._id;
+      $http.delete('/api/show/' + id)
+          .success(function(data) {
+              $scope.shows = data;
+          })
+          .error(function(data) {
+              console.log('Error: ' + data);
+          });
+  };
 });

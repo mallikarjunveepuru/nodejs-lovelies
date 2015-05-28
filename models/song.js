@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Song = new Schema({
-  location: { type: String, required: true },
-  date: { type: Date, required: true },
+  title: { type: String, required: true },
+  artist: { type: String, required: true },
   modified: { type: Date, default: Date.now }
 },
 {

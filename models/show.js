@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Show = new Schema({
-  title: { type: String, required: true },
-  artist: { type: String, required: true },
+  location: { type: String, required: true },
+  date: { type: String, required: true },
   modified: { type: Date, default: Date.now }
 },
 {

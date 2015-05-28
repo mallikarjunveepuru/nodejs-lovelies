@@ -63,7 +63,6 @@ a:visited, a:active {
   font-size: 3em;
 }
 .tbl th, .tbl td {
-  width: 50%;
   padding: 0.25rem;
   text-align: left;
   border-bottom: 1px solid #433;
@@ -274,6 +273,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .input-text {
   width: 250px;
+  margin: 2px;
 }
 #message{
   min-width: 350px;
@@ -283,13 +283,13 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #send {
-  width: 250px;
+  width: 254px;
   margin-left: 50px;
 	border: 2px solid #222;
 	cursor: pointer;
 	background-color: #a88;
 	color: #411;
-	font-size:24px;
+	font-size: 24px;
   font-weight:700;
 }
 
@@ -308,6 +308,15 @@ input[type="range"]::-webkit-slider-thumb {
   top: 0;
   z-index: 10;
   padding: 5px;
+}
+
+/* Admin Page
+ * * * * * */
+.admin-form {
+  margin: 10px;
+}
+.edit-col {
+  width: 80px;
 }
 
 /* Animations

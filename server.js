@@ -14,7 +14,6 @@ app.set('view engine', 'jade');
  * * * * * * * * * * */
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
 app.use(methodOverride());
 app.use(express.static('./public'));
 

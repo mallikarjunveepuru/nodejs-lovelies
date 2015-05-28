@@ -5,24 +5,10 @@ var nodemailer = require('nodemailer');
 
 var mongoose = require('mongoose');
 var showModel = require('../models/show');
-var db_shows;
-showModel.find(function(err, shows) {
-  if (err) return;
-  else db_shows = shows;
-});
 var songModel = require('../models/song');
-var db_songs;
-songModel.find(function(err, songs) {
-  if (err) return;
-  else db_songs = songs;
-});
 
-router.index = function (req, res, next) {
-  songModel.find( function(err, songs) {
-    if (err) return next(err);
-
+router.index = function (req, res) {
     res.render('index');
-  });
 };
 
 router.partials = function (req, res) {
@@ -77,36 +63,43 @@ router.sendEmail = function(req, res) {
 router.getShows = function(req, res, next) {
   showModel.find(function(err, shows) {
     if (err) return next();
-    res.json(songs);
+    res.json(shows);
   });
 };
 
 router.getOneShow = function(req, res, next) {
   showModel.findById(req.params.id, function (err, show) {
     if (err) return next();
-    res.json(song);
+    res.json(show);
   });
 };
 
 router.postShow = function(req, res, next) {
   showModel.create(req.body, function(err, post) {
-    if (err) return next();
-    res.json(post);
+    if (err) {
+      console.log("Got an error: " + err);
+      return next();
+    }
+    router.getShows(req, res);
   });
 };
 
 router.updateShow = function(req, res, next) {
   showModel.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next();
-    res.json(post);
+    router.getShows(req, res);
   });
 }
 
 router.deleteShow = function(req, res, next) {
-  showModel.findById(req.params.id, function(err, doc) {
-    if (err) return next();
-    doc.remove();
-    res.redirect('/');
+  showModel.remove({ _id: req.params.id }, function(err) {
+    if (!err) {
+            console.log("Deleted: " + req.params.id);
+            router.getShows(req, res);
+    }
+    else {
+            console.log("Error deleting " + req.params.id);
+    }
   });
 }
 
@@ -129,22 +122,26 @@ router.getOneSong = function(req, res, next) {
 router.postSong = function(req, res, next) {
   songModel.create(req.body, function(err, post) {
     if (err) return next();
-    res.json(post);
+    router.getSongs(req, res);
   });
 };
 
 router.updateSong = function(req, res, next) {
   songModel.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next();
-    res.json(post);
+    router.getSongs(req, res);
   });
 }
 
-router.deleteSong = function(req, res, next) {
-  songModel.findById(req.params.id, function(err, doc) {
-    if (err) return next();
-    doc.remove();
-    res.redirect('/');
+router.deleteSong = function(req, res) {
+  songModel.remove({ _id: req.params.id }, function(err) {
+    if (!err) {
+            console.log("Deleted: " + req.params.id);
+            router.getSongs(req, res);
+    }
+    else {
+            console.log("Error deleting " + req.params.id);
+    }
   });
 }
 
