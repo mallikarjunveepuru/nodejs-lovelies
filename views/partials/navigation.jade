@@ -1,0 +1,33 @@
+nav#nav-main(ng-controller="MainController")
+  #vid-container
+    ul#vid-controls.list-menu.center
+      li
+        i#play-pause(class="fa fa-play")
+        input#seek.bar(type="range",  ng-model="videoPosition")
+      li
+        i#listen-mute(class="fa fa-volume-off")
+        input#vol.bar(type="range", min="0", max="1", step=".01", value="0.2", ng-model="videoVolume")
+      li
+        i#prev(class="fa fa-backward")
+        i#next(class="fa fa-forward")
+    ul#vid-playlist.list-menu
+      li#vid1.now-playing I Can't Go For That
+      li#vid2 Don't Stop
+      li#vid3 American Boy
+      li#vid4 Highschool Confidential
+      li#vid5 Gooding-Jones Medley
+      li#vid6 Rumours
+  ul#nav-sections.list-menu
+    li
+      a(href="/band") The Band
+    li
+      a(href="/shows") Shows
+    li
+      a(href="/contact") Contact
+  ul.icon-menu.center
+    li
+      a(href="/")
+        i(class="fa fa-home")
+    li
+      a(href="/admin")
+        i(class="fa fa-key")

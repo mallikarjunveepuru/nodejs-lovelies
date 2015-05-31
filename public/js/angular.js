@@ -30,101 +30,125 @@ lovelies.config(function($routeProvider, $locationProvider) {
 });
 
 lovelies.controller("MainController", function ($scope, $http) {
-});
+  $scope.videoPosition = 0;
+  $scope.videoVolume = 0.2;
+  $scope.selection = 1;
 
+  var video = $("#bg-video");
+  var curtain = $("#bg-curtain");
+  var playButton = $("#play-pause");
+  var muteBtn = $("#listen-mute");
+  var seekBar = $("#seek");
+  var volumeBar = $("#vol");
+  var nextBtn = $("#next");
+  var prevBtn = $('#prev');
+  var playlist = $('#vid-playlist');
+  var isMuted = true;
+  var isPlaying = false;
 
-lovelies.controller("VideoController", function ($scope, $http) {
-  $scope.video = $("#video-bg");
-  $scope.videoScreen = $("#vid-curtain");
-  var watchBtn = $("#show-hide");
-  $scope.playButton = $("#play-pause");
-  $scope.muteButton = $("#listen-mute");
-  $scope.seekBar = $("#seek");
-  $scope.volumeBar = $("#vol");
-
-  watchBtn.on('click', function() {
-    if (!watchingVideo) {
-      $("#vid-curtain").css("background-image", "none").css("background-color", "#fff");
-      $("#content").css("opacity", "0");
-      watchBtn.toggleClass("fa-eye");
-      watchBtn.toggleClass("fa-eye-slash");
-      watchingVideo = true;
+  // While the video is playing, maintain view styles
+  video.on("timeupdate", function() {
+    if(video[0].currentTime != video[0].duration) {
+      var value = (100 / video[0].duration) * video[0].currentTime;
+      seekBar[0].value = value;
     } else {
-      $('#vid-curtain').css("background-image", "url('/media/bg.jpg')").css("background-color", "#000");
-      $('#content').css("opacity", ".9");
-      watchBtn.toggleClass("fa-eye");
-      watchBtn.toggleClass("fa-eye-slash");
-      watchingVideo = false;
+      nextBtn.click();
+    }
+    video.prop('muted', isMuted);
+  });
+
+  nextBtn.on("click", function() {
+    playlist.children("#vid" + $scope.selection).toggleClass('now-playing');
+    if($scope.selection < 6) {
+      $scope.selection++;
+    } else {
+      $scope.selection = 1;
+    }
+    playlist.children("#vid" + $scope.selection).toggleClass('now-playing');
+    changeVideo();
+  });
+
+  prevBtn.on("click", function() {
+    playlist.children("#vid" + $scope.selection).toggleClass('now-playing');
+    if($scope.selection > 1) {
+      $scope.selection--;
+    }
+    else {
+      $scope.selection = 6;
+    }
+    playlist.children("#vid" + $scope.selection).toggleClass('now-playing');
+    changeVideo();
+  });
+
+  function changeVideo() {
+    //isMuted = $scope.video.prop('muted');
+    video.prop('src', '/media/' + $scope.selection + '.mp4');
+    $scope.videoPosition = 0;
+    if(isPlaying) video[0].play();
+  }
+
+  playButton.on('click', function() {
+    // If the video is playing then pause it, or vice versa
+    if (isPlaying) {
+      video[0].pause();
+      curtain.css("background-color", "#000");
+      $('#view').css('opacity', '.9');
+      playButton.toggleClass("fa-play");
+      playButton.toggleClass("fa-pause");
+      isPlaying = false;
+    } else {
+      video[0].play();
+      video[0].volume = $scope.videoVolume;
+      curtain.css("background-color", "#fff");
+      $('#view').css('opacity', '0');
+      playButton.toggleClass("fa-play");
+      playButton.toggleClass("fa-pause");
+      if(isMuted) muteBtn.click();
+      isPlaying = true;
     }
   });
 
-  $scope.playButton.on('click', function() {
-    if (!$scope.video.get(0).paused) {
-      $scope.video.get(0).pause();
-      $scope.playButton.toggleClass("fa-play");
-      $scope.playButton.toggleClass("fa-pause");
-    } else {
-      $scope.video.get(0).play();
-      $scope.playButton.toggleClass("fa-play");
-      $scope.playButton.toggleClass("fa-pause");
-    }
-  });
-
-  $scope.muteButton.on('click', function() {
-    if ($scope.video.get(0).muted) {
-      $scope.video.get(0).muted = false;
+  muteBtn.on('click', function() {
+    if (isMuted) {
+      isMuted = false;
       if ($scope.videoVolume > .5 ) {
-        $scope.muteButton.addClass('fa-volume-up').removeClass('fa-volume-off').removeClass('fa-volume-down');
+        muteBtn.addClass('fa-volume-up').removeClass('fa-volume-off').removeClass('fa-volume-down');
       } else {
-        $scope.muteButton.addClass('fa-volume-down').removeClass('fa-volume-up').removeClass('fa-volume-off');
+        muteBtn.addClass('fa-volume-down').removeClass('fa-volume-up').removeClass('fa-volume-off');
       }
     } else {
-      $scope.video.get(0).muted = true;
-      $scope.muteButton.addClass('fa-volume-off').removeClass('fa-volume-up').removeClass('fa-volume-down');
+      isMuted = true;
+      muteBtn.addClass('fa-volume-off').removeClass('fa-volume-up').removeClass('fa-volume-down');
     }
   });
 
-  $scope.seekBar.on('change', function() {
-    // Calculate the new time
-    var time = $scope.video.get(0).duration * ($scope.videoPosition / 100);
-
-    // Update the video time
-    $scope.video.get(0).currentTime = time;
+  seekBar.on('change', function() {
+    // Keep options upon switching videos through watching the play bar
+    var time = video[0].duration * ($scope.videoPosition / 100);
+    video.prop('currentTime', time);
   });
 
   // Event listener for the volume bar
-  $scope.volumeBar.on('change', function() {
+  volumeBar.on('change', function() {
     // Update the video volume
-    $scope.video.get(0).volume = $scope.videoVolume;
-    if ($scope.video.get(0).muted) {
-      $scope.muteButton.addClass('fa-volume-off').removeClass('fa-volume-up').removeClass('fa-volume-down');
+    video[0].volume = $scope.videoVolume;
+    if (isMuted) {
+      muteBtn.addClass('fa-volume-off').removeClass('fa-volume-up').removeClass('fa-volume-down');
     } else if ($scope.videoVolume > .5 ) {
-      $scope.muteButton.addClass('fa-volume-up').removeClass('fa-volume-off').removeClass('fa-volume-down');
+      muteBtn.addClass('fa-volume-up').removeClass('fa-volume-off').removeClass('fa-volume-down');
     } else if ($scope.videoVolume <= .5) {
-      $scope.muteButton.addClass('fa-volume-down').removeClass('fa-volume-up').removeClass('fa-volume-off');
-    }
-  });
-
-
-  $scope.seekToggle = true;
-  $scope.video.on("timeupdate", function() {
-    // Calculate the slider value
-    if($scope.seekToggle) {
-      var value = (100 / $scope.video.get(0).duration) * $scope.video.get(0).currentTime;
-
-      // Update the slider value
-      $scope.seekBar.get(0).value = value;
+      muteBtn.addClass('fa-volume-down').removeClass('fa-volume-up').removeClass('fa-volume-off');
     }
   });
 
   // Pause the video when the slider handle is being dragged
-  $scope.seekBar.on("mousedown", function() {
-    $scope.seekToggle = false;
+  seekBar.on("mousedown", function() {
+    video[0].pause();
   });
 
   // Play the video when the slider handle is dropped
-  $scope.seekBar.on("mouseup", function() {
-    $scope.seekToggle = true;
+  seekBar.on("mouseup", function() {
+    if(isPlaying) video[0].play();
   });
 });
 
@@ -194,6 +218,7 @@ lovelies.controller("AdminController", function ($scope, $http) {
       $http.post('/api/song', $scope.songData)
           .success(function(data) {
               $scope.songs = data;
+              $scope.songData = {};
           })
           .error(function(data) {
               console.log('Error: ' + data);
@@ -215,6 +240,7 @@ lovelies.controller("AdminController", function ($scope, $http) {
       $http.post('/api/show', $scope.showData)
           .success(function(data) {
               $scope.shows = data;
+              $scope.showData = {};
           })
           .error(function(data) {
               console.log('Error: ' + data);

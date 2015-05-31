@@ -1,12 +1,5 @@
 extends layout
-
 block content
-  #container(ng-controller="MainController")
-    include ./partials/video
-    main#content(ng-view)
-    include ./partials/menu
-    div#panel
-      a(href="/")
-        i(class="fa fa-home")
-      a(href="/admin")
-        i(class="fa fa-key")
+  include ./partials/bg
+  include ./partials/navigation
+  main#view(ng-view)
