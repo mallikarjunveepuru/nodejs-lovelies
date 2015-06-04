@@ -1,5 +1,6 @@
 var lovelies = angular.module('lovelies', ['ngRoute']);
-var watchingVideo = false;
+var isMuted = true;
+var isPlaying = false;
 
 
 lovelies.config(function($routeProvider, $locationProvider) {
@@ -43,8 +44,6 @@ lovelies.controller("MainController", function ($scope, $http) {
   var nextBtn = $("#next");
   var prevBtn = $('#prev');
   var playlist = $('#vid-playlist');
-  var isMuted = true;
-  var isPlaying = false;
 
   // While the video is playing, maintain view styles
   video.on("timeupdate", function() {
@@ -91,15 +90,15 @@ lovelies.controller("MainController", function ($scope, $http) {
     // If the video is playing then pause it, or vice versa
     if (isPlaying) {
       video[0].pause();
-      curtain.css("background-color", "#000");
-      $('#view').css('opacity', '.9');
+      $('#view').css('opacity', '1');
+      curtain.css("background-color", "#000").css("background-image", "url(/media/bg.jpg)");
       playButton.toggleClass("fa-play");
       playButton.toggleClass("fa-pause");
       isPlaying = false;
     } else {
       video[0].play();
       video[0].volume = $scope.videoVolume;
-      curtain.css("background-color", "#fff");
+      curtain.css("background-color", "#fff").css("background-image", "none");
       $('#view').css('opacity', '0');
       playButton.toggleClass("fa-play");
       playButton.toggleClass("fa-pause");
@@ -159,6 +158,10 @@ lovelies.controller("BandController", function ($scope, $http) {
     .success(function (data) {
       $scope.songs = data;
   });
+
+  if(isPlaying) {
+    $('#view').css('opacity', '0');
+  }
 });
 
 
@@ -168,6 +171,10 @@ lovelies.controller("ShowsController", function ($scope, $http) {
     .success(function (data) {
       $scope.shows = data;
   });
+
+  if(isPlaying) {
+    $('#view').css('opacity', '0');
+  }
 });
 
 lovelies.controller("ContactController", function ($scope, $http) {
@@ -196,6 +203,10 @@ lovelies.controller("ContactController", function ($scope, $http) {
             $scope.status = "An error occurred. Please try again.";
         });
   };
+
+  if(isPlaying) {
+    $('#view').css('opacity', '0');
+  }
 });
 
 lovelies.controller("AdminController", function ($scope, $http) {
@@ -257,4 +268,8 @@ lovelies.controller("AdminController", function ($scope, $http) {
               console.log('Error: ' + data);
           });
   };
+
+  if(isPlaying) {
+    $('#view').css('opacity', '0');
+  }
 });

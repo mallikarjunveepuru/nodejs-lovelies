@@ -36,7 +36,7 @@ router.sendEmail = function(req, res) {
         user: 'the.lovelies.sender@gmail.com',
         pass: 'thelovelies2015'
     }
-});
+  });
 
   // setup e-mail data with unicode symbols
   var mailOptions = {

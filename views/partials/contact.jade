@@ -1,18 +1,19 @@
 section#contact(ng-controller="ContactController")
-  strong.section-title Contact
-  form.content-container(name="emailForm")
-    div.left-col
-      textarea#message(name="text", class="contact-input", placeholder="Message", ng-model="message")
-    div.right-col
-      div#name-box
-        i.icon-label(class="fa fa-user fa-2x")
-        input(name="name", type="text", class="contact-input input-text", placeholder="Name", ng-model="name")
-      div#email-box
-        i.icon-label(class="fa fa-envelope fa-2x")
-        input(name="email", type="text", class="contact-input input-text", placeholder="Email", ng-model="email")
-      div#subject-box
-        i.icon-label(class="fa fa-question fa-2x")
-        input(name="subject", type="text", class="contact-input input-text", placeholder="Subject", ng-model="subject")
-      input#send(type="submit", value="SEND", ng-click="submit(emailForm)")
-    br
-    div#status(ng-show="status" ng-bind="status")
+  h2.title Contact
+  div.content-container
+    form(name="emailForm")
+      div.left-col
+        textarea#message(name="text", class="contact-input", placeholder="Message", ng-model="message")
+      div.right-col
+        div#name-box
+          i.icon-label(class="fa fa-user fa-2x")
+          input(name="name", type="text", class="contact-input input-text", placeholder="Name", ng-model="name")
+        div#email-box
+          i.icon-label(class="fa fa-envelope fa-2x")
+          input(name="email", type="text", class="contact-input input-text", placeholder="Email", ng-model="email")
+        div#subject-box
+          i.icon-label(class="fa fa-question fa-2x")
+          input(name="subject", type="text", class="contact-input input-text", placeholder="Subject", ng-model="subject")
+        input#send(type="submit", value="SEND", ng-click="submit(emailForm)")
+      br
+      div#status(ng-show="status" ng-bind="status")

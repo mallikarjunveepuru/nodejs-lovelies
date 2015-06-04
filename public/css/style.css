@@ -18,6 +18,7 @@ a:visited, a:active {
   color: #baa;
   opacity: .7;
 }
+h1, h2 {margin: 0;}
 
 .center {
   text-align: center;
@@ -25,13 +26,40 @@ a:visited, a:active {
 
 .title {
   font-size: 4em;
-  line-height: 1.375em;
+  font-family: Ruthie, Times, serif;
+  font-weight: 200;
+  margin: 50px 0;
   text-shadow:
-    0px 0px 3px black,
-    1em -.1em 6px #211,
-    -.6em 0em 4px #112,
-    .5em .3em 8px #121;
+    0px 0px 3px black;
   text-align: center;
+}
+
+.main-title {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  font-size: 12em;
+  font-family: Ruthie, Times, serif;
+  font-weight: 400;
+  color: rgba(80,25,25,.8);
+  text-shadow:
+    0 0 5px black,
+    0 .1em 4px rgba(50,10,10,.4),
+    -.1em 0 7px rgba(10,10,50,.4),
+    .1em 0 5px rgba(10,50,10,.4);
+  text-align: center;
+  transform: translate(-25%, -55%);
+
+  background: #000 -webkit-gradient(linear, left top, right top, from(#000), to(#000), color-stop(0.3, #fcc)) 0 0 no-repeat;
+  background-size: cover;
+  -webkit-background-clip: text;
+  animation: lovelies 5s ease-in infinite;
+}
+
+@keyframes lovelies
+{
+    0% {background-position: -100vw;}
+    100% {background-position: 100vw;}
 }
 
 .list-menu {
@@ -79,9 +107,7 @@ a:visited, a:active {
   color: #eee;
   text-shadow: 0px 0px 3px black;
 	padding: 25px;
-  text-align: left;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
+  margin: 0 10px;
   border-radius: 10px;
 }
 
@@ -91,12 +117,8 @@ a:visited, a:active {
 
 html {}
 body {
-  position: absolute;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  height: 100vh;
-  width: 100vw;
   z-index: 0;
   font-family: Droid Serif, serif;
   font-weight: 400;
@@ -111,22 +133,29 @@ body {
 /* Video Background
  * * * * * * * * */
 #bg {
-  position: absolute;
-  z-index: 0;
+  position: fixed;
+  z-index: -9999;
 }
 #bg-curtain {
   position: fixed;
-  min-height: 100vh;
-  min-width: 100vw;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-image: url('/media/bg.jpg');
+  background-attachment: fixed;
+  background-size: cover;
   background-color: #000;
-  z-index: 1;
+  z-index: -9999;
 }
 #bg-video {
   position: fixed;
-  min-width: 100vw;
+  top: 0;
+  left: 0;
   min-height: 100vh;
+  min-width: 100vw;
   mix-blend-mode: darken;
-  z-index: 2;
+  z-index: 9999;
 }
 
 
@@ -135,10 +164,11 @@ body {
  * * * * * * * * * */
 #view {
   position: absolute;
-  height: 100vh;
-  width: 100vw;
-  box-sizing: border-box;
-  //background-image: url('/media/bg.jpg');
+  padding-left: 200px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   z-index: 0;
   text-align: center;
 }
@@ -151,10 +181,11 @@ body {
 #nav-main {
   position: fixed;
   top: 50%;
+  left: 0;
   transform: translateY(-50%);
   padding: 5px;
   text-align: left;
-  z-index: 1;
+  z-index: 9999;
 }
 #vid-container {
   padding: 5px;
@@ -217,14 +248,11 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* Section specific styles
 * * * * * * * ** * * * * */
-#section-title {
-  font-family: Ruthie, Times, serif;
-  font-size: 3em;
-}
-#section-band {}
-#section-shows {}
-#section-contact {}
-#section-admin {}
+#title {}
+#band {}
+#shows {}
+#contact {}
+#admin {}
 
 
 
