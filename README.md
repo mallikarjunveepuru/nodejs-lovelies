@@ -11,7 +11,7 @@ Web application for the Lovelies acoustic cover band.
 
   This application is primarily being written to learn various node.js technologies and web development practices, as well as providing a website for my musical group The Lovelies.
   
-## Topics
+## Topics:
 
  * AngularJS - models, views, controllers, directives
  * Node Package Manager - install packages, build scripts
