@@ -1,0 +1,13 @@
+section#login(ng-controller="AdminController")
+  h2.title Administration
+  form.content-container(ng-submit="login()")
+    span.message {{ message }}
+    div
+      i.icon-label(class="fa fa-envelope fa-2x")
+      input(name="email", type="email", class="contact-input input-text", placeholder="email", ng-model="loginData.email")
+    div
+      i.icon-label(class="fa fa-key fa-2x")
+      input(name="password", type="password", class="contact-input input-text password", placeholder="Password", ng-model="loginData.password")
+    button#send(type="submit") LOGIN
+    br
+    a(href="/admin/register") > or register <

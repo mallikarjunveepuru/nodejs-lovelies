@@ -1,10 +1,36 @@
 section#login(ng-controller="AdminController")
-  strong.section-title Admin Login
-  form.content-container
-      div#username-box
-        i.icon-label(class="fa fa-user fa-2x")
-        input(name="username", type="text", class="validate[required,custom[onlyLetter],length[0,100]] contact-input input-text", placeholder="Username")
-      div#password-box
-        i.icon-label(class="fa fa-key fa-2x")
-        input(name="password", type="text", class="validate[required,custom[email]] contact-input input-text password", placeholder="Password")
-      input#send(type="submit", value="SEND")
+  h2.title Admin Panel
+  button#send(ng-click="logout()") Logout
+  article.content-container
+    h2 Song Database
+    form.admin-form(ng-submit="postSong()")
+      input(name="title", type="text", class="contact-input input-text", placeholder="title" ng-model="songData.title")
+      input(name="artist", type="text", class="contact-input input-text", placeholder="artist", ng-model="songData.artist")
+      button#send(type="submit") add
+    table.tbl
+      thead
+        th Edit
+        th Title
+        th Artist
+      tbody
+        tr(ng-repeat="song in songs")
+          td.edit-col
+            button(ng-click="deleteSong(song)") delete
+          td {{ song.title }}
+          td {{ song.artist }}
+    h2 Show Database
+    form.admin-form(ng-submit="postShow()")
+      input(name="date", type="text", class="contact-input input-text", placeholder="date", ng-model="showData.date")
+      input(name="location", type="text", class="contact-input input-text", placeholder="location", ng-model="showData.location")
+      button#send(type="submit") add
+    table.tbl
+      thead
+        th Edit
+        th Date
+        th Location
+      tbody
+        tr(ng-repeat="show in shows")
+          td.edit-col
+            button(ng-click="deleteShow(show)") delete
+          td {{ show.date }}
+          td {{ show.location }}

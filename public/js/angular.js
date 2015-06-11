@@ -20,9 +20,13 @@ lovelies.config(function($routeProvider, $locationProvider) {
         controller: 'ContactController'
     });
     $routeProvider.when('/admin', {
-      templateUrl: '/api/partials/admin-panel',
+      templateUrl: '/api/admin',
       controller: 'AdminController'
-    })
+    });
+    $routeProvider.when('/admin/register', {
+      templateUrl: '/api/partials/register',
+      controller: 'AdminController'
+    });
 
     $locationProvider.html5Mode({
       enabled: true,
@@ -151,7 +155,6 @@ lovelies.controller("MainController", function ($scope, $http) {
   });
 });
 
-
 lovelies.controller("BandController", function ($scope, $http) {
   $scope.songs = [];
   $http.get('/api/song')
@@ -163,7 +166,6 @@ lovelies.controller("BandController", function ($scope, $http) {
     $('#view').css('opacity', '0');
   }
 });
-
 
 lovelies.controller("ShowsController", function ($scope, $http) {
   $scope.shows = [];
@@ -209,7 +211,9 @@ lovelies.controller("ContactController", function ($scope, $http) {
   }
 });
 
-lovelies.controller("AdminController", function ($scope, $http) {
+lovelies.controller("AdminController", function ($scope, $http, $route, $window) {
+
+  // Show Database Information in Admin
   $scope.songs = [];
   $http.get('/api/song')
     .success(function (data) {
@@ -267,6 +271,37 @@ lovelies.controller("AdminController", function ($scope, $http) {
           .error(function(data) {
               console.log('Error: ' + data);
           });
+  };
+
+  // Administration Login, Logout, and Register functions
+  $scope.loginData = {};
+  $scope.login = function() {
+    console.log($scope.loginData);
+    $http.post('/api/admin/login', $scope.loginData)
+        .success(function(data) {
+          $window.location.reload();
+        })
+        .error(function(data) {
+          $scope.message = data;
+        });
+  };
+
+  $scope.registerData = {};
+  $scope.register = function() {
+    $http.post('/api/admin/register', $scope.registerData)
+        .success(function(data) {
+          $window.location.assign('/admin');
+        })
+        .error(function(data) {
+          $scope.message = data;
+        });
+  };
+
+  $scope.logout = function() {
+    $http.get('/api/admin/logout')
+      .success(function(data) {
+        $window.location.reload();
+      });
   };
 
   if(isPlaying) {

@@ -48,7 +48,7 @@ h1, h2 {margin: 0;}
     -.1em 0 7px rgba(10,10,50,.4),
     .1em 0 5px rgba(10,50,10,.4);
   text-align: center;
-  transform: translate(-25%, -55%);
+  transform: translate(-30%, -55%);
 
   background: #000 -webkit-gradient(linear, left top, right top, from(#000), to(#000), color-stop(0.3, #fcc)) 0 0 no-repeat;
   background-size: cover;

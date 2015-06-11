@@ -1,14 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var url = require('url');
+var bcrypt = require('bcryptjs');
 var nodemailer = require('nodemailer');
 
 var mongoose = require('mongoose');
 var showModel = require('../models/show');
 var songModel = require('../models/song');
+var userModel = require('../models/user');
 
 router.index = function (req, res) {
-    res.render('index');
+  res.render('index');
 };
 
 router.partials = function (req, res) {
@@ -56,6 +58,57 @@ router.sendEmail = function(req, res) {
       }
       console.log("email sent");
       res.json(info.response);
+  });
+};
+
+// Admin
+router.admin = function(req, res) {
+  if (req.session && req.session.user) {
+    userModel.findOne({ email: req.session.user.email }, function(err, user) {
+      if(!user) {
+        req.session.reset();
+        res.render('partials/login');
+      } else {
+        res.locals.user = user;
+        res.render('partials/admin');
+      }
+    });
+  } else {
+    res.render('partials/login');
+  }
+};
+
+router.login = function(req, res) {
+  userModel.findOne({ email: req.body.email }, function(err, user) {
+    if(!user) {
+      res.status(404).json("Invalid email or password.");
+    } else {
+      if (bcrypt.compareSync(req.body.password, user.password)) {
+        req.session.user = user;
+        res.redirect('/admin');
+      } else {
+        res.status(404).json("Invalid email address or password.");
+      }
+    }
+  });
+};
+router.logout = function(req, res) {
+  req.session.reset();
+  res.redirect('/');
+};
+router.register = function(req, res, next) {
+  var hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+
+  var User = new userModel({
+    email: req.body.email,
+    password: hash
+  });
+  User.save(function(err) {
+    if (err) {
+      res.status(404).json("An error occurred. Perhaps try a different email.");
+    } else {
+      res.redirect('/admin');
+    }
   });
 };
 
