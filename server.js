@@ -10,7 +10,7 @@ var app = express();
 /* Connection to the database
  * * * * * * * * * * * * * * */
 var mongoose = require('mongoose');
-var db_url = 'mongodb://0.0.0.0:27017/lovelies_db';
+var db_url = 'mongodb://127.0.0.1:27017/lovelies_db';
 mongoose.connect(db_url, function(err) {
   if (err) {
     console.log('Database connection error: ', err);
